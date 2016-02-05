@@ -29,7 +29,7 @@ public class TaskViewerActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_viewer);
 
-        // Navigation
+        // Start Navigation
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -53,10 +53,6 @@ public class TaskViewerActivity extends AppCompatActivity
         // End navigation
 
         LinearLayout taskHolder = (LinearLayout) findViewById(R.id.task_holder);
-
-        /*
-        RelativeLayout t1 = new TaskView(getApplicationContext(), null);
-         */
 
         taskHolder.addView(new TaskView(getApplicationContext(), null,
                 "Android Dev", "Science", 15 * 60 * 1000, ContextCompat.getColor(getApplicationContext(), R.color.taskRed)));

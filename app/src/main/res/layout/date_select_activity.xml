@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <DatePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/datePicker"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.09"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <!-- Note: LinearLayout wrapping is to properly center text under the buttons;
+        while 'pseudo' centering is possible by locking the widths, text overflow will go to the next line -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/select_container"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_below="@+id/datePicker"
+        android:layout_toLeftOf="@+id/today_container"
+        android:layout_toStartOf="@+id/today_container"
+        android:layout_marginRight="40dp">
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/select_button"
+            android:onClick="onSelectClick" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Select"
+            android:textAlignment="center"
+            android:id="@+id/select_text"
+            android:layout_marginTop="5dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/today_container"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_below="@+id/datePicker"
+        android:layout_centerHorizontal="true">
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/today_button"
+            android:onClick="onTodayClick"
+            android:layout_below="@+id/datePicker"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Today"
+            android:textAlignment="center"
+            android:id="@+id/today_text"
+            android:layout_marginTop="5dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tomorrow_container"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_below="@+id/datePicker"
+        android:layout_toRightOf="@+id/today_container"
+        android:layout_toEndOf="@+id/today_container"
+        android:layout_marginLeft="40dp">
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tomorrow_button"
+            android:onClick="onTomorrowClick" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Tomorrow"
+            android:textAlignment="center"
+            android:id="@+id/tomorrow_text"
+            android:layout_marginTop="5dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
