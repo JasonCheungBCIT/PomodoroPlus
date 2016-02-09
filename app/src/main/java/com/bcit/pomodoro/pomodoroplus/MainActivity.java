@@ -30,6 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void onSettingClick(View view) {
         Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
-        //startActivity(intent);
+        startActivity(intent);
     }
 }
