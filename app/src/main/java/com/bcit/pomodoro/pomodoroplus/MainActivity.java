@@ -22,4 +22,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), DateSelectActivity.class);
         startActivity(intent);
     }
+
+    public void onCreateClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), CreateActivity.class);
+        startActivity(intent);
+    }
+
+    public void onSettingClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
+        //startActivity(intent);
+    }
 }

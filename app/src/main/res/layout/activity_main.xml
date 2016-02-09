@@ -9,6 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.bcit.pomodoro.pomodoroplus.MainActivity">
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,6 +19,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="128dp" />
 
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_toLeftOf="@id/textView2"
+        android:layout_marginTop="120dp"
+        android:id="@+id/ivPomo"
+        android:src="@drawable/pomo" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,6 +34,8 @@
         android:id="@+id/button"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_below="@id/textView2"
+        android:layout_marginTop="30dp"
         android:onClick="onViewTaskClick"/>
 
     <Button
@@ -34,7 +45,27 @@
         android:id="@+id/button2"
         android:layout_below="@+id/button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="20dp"
         android:onClick="onCreateTaskClick"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create tasks2"
+        android:id="@+id/btCreate"
+        android:layout_below="@+id/button2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:onClick="onCreateClick"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:id="@+id/btSettings"
+        android:layout_below="@+id/btCreate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:onClick="onSettingClick"/>
 
 </RelativeLayout>
