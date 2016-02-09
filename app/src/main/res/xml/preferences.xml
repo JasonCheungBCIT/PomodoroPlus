@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Settings">
+
+        <EditTextPreference
+            android:key="name_preference"
+            android:title="Your name"
+            android:summary="Username"
+            android:dialogTitle="Enter your name">
+        </EditTextPreference>
+
+        <ListPreference
+            android:defaultValue="no notification"
+            android:dialogTitle="Notification Type:"
+            android:entries="@array/notification_type"
+            android:entryValues="@array/notification_values"
+            android:key="notification_preference"
+            android:summary="your notification type"
+            android:title="Notification"/>
+
+        <MultiSelectListPreference
+            android:dialogTitle="Select your break types"
+            android:entries="@array/break_types"
+            android:entryValues="@array/break_values"
+            android:key="break_preference"
+            android:summary="breaks selected"
+            android:title="Your breaks"/>
+
+        <MultiSelectListPreference
+            android:dialogTitle="Select your exercise break types"
+            android:entries="@array/exercise_types"
+            android:entryValues="@array/exercise_values"
+            android:key="exercise_preference"
+            android:summary="exercies selected"
+            android:title="Your exercises"/>
+    </PreferenceCategory>
+</PreferenceScreen>

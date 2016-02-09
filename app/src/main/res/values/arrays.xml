@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="notification_type">
+        <item>no notification</item>
+        <item>alarm with sound</item>
+        <item>alarm without sound</item>
+    </string-array>
+    <string-array name="notification_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="break_types">
+        <item>gaming</item>
+        <item>socializing</item>
+        <item>add</item>
+    </string-array>
+    <string-array name="break_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="exercise_types">
+        <item>push ups</item>
+        <item>sit ups</item>
+        <item>1 kilometer run</item>
+    </string-array>
+    <string-array name="exercise_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+
+</resources>
