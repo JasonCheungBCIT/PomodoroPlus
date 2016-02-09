@@ -64,16 +64,13 @@
         android:text="Category:" />
 
     <Spinner
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinCategory"
-        android:layout_marginLeft="100dp"
         android:layout_below="@+id/etDuration"
         android:layout_toRightOf="@id/tvCategory"
-        android:layout_marginTop="5dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="10dp"
+        android:entries="@array/category_arrays" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -82,20 +79,16 @@
         android:textStyle="normal"
         android:layout_below="@id/tvCategory"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="40dp"
         android:text="Priority:" />
 
     <Spinner
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinPriority"
-        android:layout_marginLeft="100dp"
         android:layout_below="@+id/spinCategory"
         android:layout_toRightOf="@id/tvCategory"
-        android:layout_marginTop="5dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -104,20 +97,16 @@
         android:textStyle="normal"
         android:layout_below="@id/tvPriority"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="40dp"
         android:text="Color:" />
 
     <Spinner
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinColor"
-        android:layout_marginLeft="100dp"
         android:layout_below="@+id/spinPriority"
         android:layout_toRightOf="@id/tvColor"
-        android:layout_marginTop="5dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="20dp" />
 
 
     <Button

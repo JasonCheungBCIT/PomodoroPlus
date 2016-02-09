@@ -6,4 +6,34 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    
+    <string-array name="category_arrays">
+        <item>Example 1</item>
+        <item>Example 2</item>
+        <item>Example 3</item>
+        <item>Example 4</item>
+        <item>Example 5</item>
+        <item>Example 6</item>
+        <item>Example 7</item>
+    </string-array>
+
+    <string-array name="priority_arrays">
+        <item>Extremely High</item>
+        <item>High</item>
+        <item>Medium</item>
+        <item>Low</item>
+    </string-array>
+
+    <string-array name="color_arrays">
+        <item>Blue</item>
+        <item>Green</item>
+        <item>Red</item>
+        <item>Black</item>
+        <item>Purple</item>
+        <item>Yellow</item>
+        <item>Dark-Green</item>
+        <item>Light-Green</item>
+        <item>Green-Green</item>
+    </string-array>
+
 </resources>
