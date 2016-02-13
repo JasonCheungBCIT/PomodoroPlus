@@ -1,6 +1,7 @@
 package com.bcit.pomodoro.pomodoroplus;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import java.util.ArrayList;
 
 /**
  * Created by Jason Cheung on 2016-02-01.
@@ -54,20 +57,34 @@ public class TaskViewerActivity extends AppCompatActivity
 
         LinearLayout taskHolder = (LinearLayout) findViewById(R.id.task_holder);
 
-        taskHolder.addView(new TaskView(getApplicationContext(), null,
-                "Android Dev", "Science", 15 * 60 * 1000, ContextCompat.getColor(getApplicationContext(), R.color.taskRed)));
-        taskHolder.addView(new TaskView(getApplicationContext(), null,
-                "Literature", "Arts", 15 * 60 * 1000, ContextCompat.getColor(getApplicationContext(), R.color.taskIndigo)));
-        taskHolder.addView(new ExerciseView(getApplicationContext(), null,
-                "Push-ups!", "Exercise", 15 * 60 * 1000));
-        taskHolder.addView(new TaskView(getApplicationContext(), null,
-                "Project UI Design", "Creative", 15 * 60 * 1000, ContextCompat.getColor(getApplicationContext(), R.color.taskViolet)));
-        taskHolder.addView(new TaskView(getApplicationContext(), null,
-                "Android Dev", "Science", 15 * 60 * 1000, ContextCompat.getColor(getApplicationContext(), R.color.taskRed)));
-        taskHolder.addView(new BreakView(getApplicationContext(), null,
-                "Relax", "Break", 15 * 60 * 1000));
+        ArrayList<TaskModel> testModels = generateTestModels(getApplicationContext());
+
+        for (TaskModel tm : testModels) {
+            taskHolder.addView(new TaskView(getApplicationContext(), null, tm));
+        }
     }
 
+    /* -- DEBUG -- */
+    // Currently doesn't generate any execercise / break models
+    private static ArrayList<TaskModel> generateTestModels(Context context) {
+
+        ArrayList<TaskModel> models = new ArrayList<>();
+
+        models.add(new TaskModel("Android Dev", "Science", 15 * 60 * 1000,
+                ContextCompat.getColor(context, R.color.taskRed)));
+        models.add(new TaskModel("Literature", "Arts", 15 * 60 * 1000,
+                ContextCompat.getColor(context, R.color.taskOrange)));
+        models.add(new TaskModel("Push-ups!", "Exercise", 5 * 60 * 1000,
+                ContextCompat.getColor(context, R.color.taskYellow)));
+        models.add(new TaskModel("Project UI Design", "Creative", 15 * 60 * 1000,
+                ContextCompat.getColor(context, R.color.taskGreen)));
+        models.add(new TaskModel("Relax", "Break", 30 * 60 * 1000,
+                ContextCompat.getColor(context, R.color.taskBlue)));
+        models.add(new TaskModel("Foo", "Bar", 15 * 60 * 1000,
+                ContextCompat.getColor(context, R.color.taskIndigo)));
+
+        return models;
+    }
 
     /* -- NAVIGATION -- */
     @Override

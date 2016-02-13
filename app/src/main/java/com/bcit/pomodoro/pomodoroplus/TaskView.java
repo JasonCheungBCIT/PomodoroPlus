@@ -44,6 +44,24 @@ public class TaskView extends RelativeLayout {
         this.taskView.setBackgroundColor(color);
     }
 
+    public TaskView (Context context, AttributeSet attrs, TaskModel model) {
+        super(context, attrs);
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        inflater.inflate(R.layout.task_view, this);
+
+        taskView = (RelativeLayout) findViewById(R.id.task_view);
+
+        this.title    = (TextView) findViewById(R.id.task_title);
+        this.category = (TextView) findViewById(R.id.category);
+        this.duration = (TextView) findViewById(R.id.duration);
+
+        this.title.setText(model.getTitle());
+        this.category.setText(model.getCategory());
+        this.duration.setText(Long.toString(model.getTimeLeft() / 1000 / 60) + " min");
+        this.taskView.setBackgroundColor(model.getBgColor());
+    }
+
     /* -- GETS AND SETS -- */
     // TODO: Doesn't actually update the view
     public TextView getTitle() {
