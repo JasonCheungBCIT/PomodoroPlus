@@ -37,6 +37,13 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filler>
         </activity>
+        <activity
+            android:name=".JasonTestBench"
+            android:label="settings">
+            <intent-filler>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filler>
+        </activity>
 
         <activity android:name=".CreateActivity"></activity>
     </application>

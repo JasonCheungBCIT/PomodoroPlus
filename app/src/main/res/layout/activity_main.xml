@@ -41,31 +41,38 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create tasks"
+        android:text="Select a date"
         android:id="@+id/button2"
+        android:onClick="onCreateTaskClick"
         android:layout_below="@+id/button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:onClick="onCreateTaskClick"/>
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create tasks2"
+        android:text="Create Task"
         android:id="@+id/btCreate"
+        android:onClick="onCreateClick"
         android:layout_below="@+id/button2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:onClick="onCreateClick"/>
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Settings"
         android:id="@+id/btSettings"
+        android:onClick="onSettingClick"
         android:layout_below="@+id/btCreate"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:onClick="onSettingClick"/>
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jason Testing Area"
+        android:id="@+id/button6"
+        android:onClick="onJasonClick"
+        android:layout_below="@+id/btSettings"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
