@@ -1,6 +1,7 @@
 package com.bcit.pomodoro.pomodoroplus;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -26,11 +27,11 @@ import java.util.ArrayList;
 public class CreateActivity extends AppCompatActivity {
     private static final String TAG = "CreateActivity";
 
-    private EditText etTitle, etDuration;
-    private int color;
-    private Spinner sCategory, sPriority, sColor;
+    private EditText             etTitle, etDuration;
+    private int                  color;
+    private Spinner              sCategory, sPriority, sColor;
     private ArrayAdapter<String> categoryAdapter, priorityAdapter, colorAdapter;
-    private static final String FILE_NAME = "stored_tasks";
+    private static final String  FILE_NAME = "stored_tasks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,31 +94,33 @@ public class CreateActivity extends AppCompatActivity {
         return color;
     }
 
-    public void verifyInfo(View v){
-        String  title, sDuration, category;
-        long    duration;
-        int     color;
+    public void verifyInfo(View v) {
+        String              title, sDuration, category;
+        long                duration;
+        int                 color;
+        FileInputStream     fis = null;
+        FileOutputStream    fos = null;
+        TaskModel           toSave;
+        StringBuilder       jsonContent;
+        File                file;
 
         sDuration   = etDuration.getText().toString();
         title       = etTitle.getText().toString();
         category    = sCategory.getSelectedItem().toString();
-        duration    = Long.parseLong(sDuration);
+        duration    = (sDuration.equals("")) ? 0 : Long.parseLong(sDuration);
         duration    = duration * 1000 * 60;
         color       = findColor();
-        /*if(!etTitle.equals("") && !testDuration.equals("")) {
-            Toast.makeText(getApplicationContext(), etTitle, Toast.LENGTH_LONG).show();
+        toSave      = new TaskModel(title, category, duration,
+                        ContextCompat.getColor(getApplicationContext(), color));
 
-        }*/
+        if(title.equals("") || duration == 0) {
+            Toast.makeText(getApplicationContext(), "Please enter all fields!", Toast.LENGTH_LONG).show();
+            return;
+        }
 
-        TaskModel toSave = new TaskModel(title, category, duration,
-                ContextCompat.getColor(getApplicationContext(), color));
-
-        StringBuilder jsonContent = new StringBuilder();
-        FileInputStream fis = null;
-        FileOutputStream fos = null;
-        String filePath = FILE_NAME;
         // TODO: Below line is the fix (and make sure it's just file name now, not file path)
-        File file = new File(getApplicationContext().getFilesDir(), filePath);
+        jsonContent = new StringBuilder();
+        file        = new File(getApplicationContext().getFilesDir(), FILE_NAME);
 
         /// DEBUG
         Log.d(TAG, file.getAbsolutePath());
@@ -154,9 +157,6 @@ public class CreateActivity extends AppCompatActivity {
                 fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
                 fos.write(content.getBytes());
                 fos.close();
-
-                Toast.makeText(getApplicationContext(), "creating", Toast.LENGTH_SHORT).show();
-
             } else {
                 Log.d(TAG, "Existing file found, appending");
 
@@ -176,7 +176,7 @@ public class CreateActivity extends AppCompatActivity {
                 save = gson.fromJson(jsonContent.toString(), SavePackage.class);
 
                 // Add our new task
-                save.getTaskModels().add(toSave);
+                save.setTaskModels(toSave);
 
                 // Reserialize
                 String content = gson.toJson(save);
@@ -186,7 +186,6 @@ public class CreateActivity extends AppCompatActivity {
                 fos.write(content.getBytes());
                 fos.close();
             }
-
         } catch (FileNotFoundException e) {
             Log.d("FILE", "Failed to create file");
             e.printStackTrace();
@@ -194,9 +193,8 @@ public class CreateActivity extends AppCompatActivity {
             Log.d("FILE", "Failed to write file");
             e.printStackTrace();
         }
-        Toast.makeText(getApplicationContext(), "Made it", Toast.LENGTH_LONG).show();
+
+        startActivity(new Intent(this, MainActivity.class));
     }
-
-
 }
 
