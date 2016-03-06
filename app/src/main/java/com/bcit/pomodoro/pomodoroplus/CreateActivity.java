@@ -10,20 +10,22 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class CreateActivity extends AppCompatActivity {
 
-    private String etTitle, category;
-    private long duration;
+    private EditText etTitle, etDuration;
     private int color;
     private Spinner sCategory, sPriority, sColor;
     private ArrayAdapter<String> categoryAdapter, priorityAdapter, colorAdapter;
@@ -37,6 +39,8 @@ public class CreateActivity extends AppCompatActivity {
         final Resources res;
         final String[] categoryArray, colorArray, priorityArray;
 
+        etTitle         = (EditText) findViewById(R.id.etName);
+        etDuration      = (EditText) findViewById(R.id.etDuration);
         sCategory       = (Spinner) findViewById(R.id.spinCategory);
         sPriority       = (Spinner) findViewById(R.id.spinPriority);
         sColor          = (Spinner) findViewById(R.id.spinColor);
@@ -54,26 +58,71 @@ public class CreateActivity extends AppCompatActivity {
         sPriority.setAdapter(priorityAdapter);
     }
 
+    private int findColor() {
+        int     color;
+        String  selectedColor;
+
+        color           = R.color.taskRed;
+        selectedColor   = sColor.getSelectedItem().toString();
+
+        switch(selectedColor) {
+            case "Red":
+                color = R.color.taskRed;
+                break;
+            case "Orange":
+                color = R.color.taskOrange;
+                break;
+            case "Yellow":
+                color = R.color.taskYellow;
+                break;
+            case "Green":
+                color = R.color.taskGreen;
+                break;
+            case "Blue":
+                color = R.color.taskBlue;
+                break;
+            case "Indigo":
+                color = R.color.taskIndigo;
+                break;
+            case "Violet":
+                color = R.color.taskViolet;
+                break;
+        }
+
+        return color;
+    }
+
     public void verifyInfo(View v){
-        etTitle = ((EditText)findViewById(R.id.etName)).getText().toString();
-        category = sCategory.getSelectedItem().toString();
-        String testDuration = ((EditText)findViewById(R.id.etDuration)).getText().toString();
+        String  title, sDuration, category;
+        long    duration;
+        int     color;
+
+        sDuration   = etDuration.getText().toString();
+        title       = etTitle.getText().toString();
+        category    = sCategory.getSelectedItem().toString();
+        duration    = Long.parseLong(sDuration);
+        duration    = duration * 1000 * 60;
+        color       = findColor();
         /*if(!etTitle.equals("") && !testDuration.equals("")) {
             Toast.makeText(getApplicationContext(), etTitle, Toast.LENGTH_LONG).show();
 
         }*/
-       duration = Long.parseLong(((EditText) findViewById(R.id.etDuration)).getText().toString());
-        //color as a string but COLORS A FUCKING INTTTT
-        //color = Integer.parseInt(sColor.getSelectedItem().toString());
 
-        TaskModel toSave = new TaskModel(etTitle, category,duration, ContextCompat.getColor(getApplicationContext(), R.color.taskRed));
+        TaskModel toSave = new TaskModel(title, category, duration, ContextCompat.getColor(getApplicationContext(), color));
 
         StringBuilder jsonContent = new StringBuilder();
         FileInputStream fis = null;
         FileOutputStream fos = null;
-
+        String hello = "./" + FILE_NAME;
+        File file = new File(hello);
 
         try {
+            //CREATING THE FILE IF IT DOESN'T EXIST USING FILEOUTPUT BECAUSE file.createFile() FAILS :'(;
+            if(!file.exists()) {
+                Toast.makeText(getApplicationContext(), "creating", Toast.LENGTH_SHORT).show();
+                fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+                fos.close();
+            }
             fis = openFileInput(FILE_NAME);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
@@ -83,12 +132,27 @@ public class CreateActivity extends AppCompatActivity {
             }
             fis.close();
 
-            jsonContent.append(toSave);
+            ArrayList<TaskModel> newTm = new ArrayList<>();
             SavePackage save;
             Gson gson = new Gson();
             save = gson.fromJson(jsonContent.toString(), SavePackage.class);
+            if(save == null) {
+                save = new SavePackage(new ArrayList<TaskModel>());
+                Toast.makeText(getApplicationContext(), "again", Toast.LENGTH_SHORT).show();
+            }
             save.setTaskModels(toSave);
+            //newTm.add(toSave);
+            for (TaskModel tm : save.getTaskModels()) {
+                newTm.add(tm);
+            }
+
+            //jsonContent.append(toSave);
+            //SavePackage save = new SavePackage(tm);
+
+            save = new SavePackage(newTm);
+            //save.setTaskModels(toSave);
             String content = gson.toJson(save);
+            //jsonContent.append(content);
 
             fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
             fos.write(content.getBytes());
@@ -100,7 +164,9 @@ public class CreateActivity extends AppCompatActivity {
             Log.d("FILE", "Failed to write file");
             e.printStackTrace();
         }
-
+        Toast.makeText(getApplicationContext(), "Made it", Toast.LENGTH_LONG).show();
     }
+
+
 }
 

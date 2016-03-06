@@ -8,8 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.bcit.pomodoro.pomodoroplus.CreateActivity"
-    android:background="#7c7878">
+    tools:context="com.bcit.pomodoro.pomodoroplus.CreateActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -69,7 +68,7 @@
         android:id="@+id/spinCategory"
         android:layout_below="@+id/etDuration"
         android:layout_toRightOf="@id/tvCategory"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:entries="@array/category_arrays" />
 
     <TextView
@@ -88,7 +87,7 @@
         android:id="@+id/spinPriority"
         android:layout_below="@+id/spinCategory"
         android:layout_toRightOf="@id/tvCategory"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="18dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -105,8 +104,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/spinColor"
         android:layout_below="@+id/spinPriority"
-        android:layout_toRightOf="@id/tvColor"
-        android:layout_marginTop="20dp" />
+        android:layout_toRightOf="@id/tvCategory"
+        android:layout_marginTop="23dp" />
 
 
     <Button
