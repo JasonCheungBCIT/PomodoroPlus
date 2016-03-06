@@ -22,4 +22,23 @@
         app:headerLayout="@layout/nav_header_task_viewer"
         app:menu="@menu/activity_task_viewer_drawer" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:id="@+id/task_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Is programtically filled -->
+
+        </LinearLayout>
+
+    </ScrollView>
+
 </android.support.v4.widget.DrawerLayout>

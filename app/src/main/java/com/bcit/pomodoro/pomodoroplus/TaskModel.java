@@ -1,8 +1,5 @@
 package com.bcit.pomodoro.pomodoroplus;
 
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 /**
  * Created by Jason Cheung on 2016-02-13.
  */
@@ -23,9 +20,7 @@ public class TaskModel {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public void setTitle(String title) { this.title = title; }
 
     public String getCategory() {
         return category;

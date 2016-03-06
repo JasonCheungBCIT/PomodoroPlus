@@ -1,8 +1,6 @@
 package com.bcit.pomodoro.pomodoroplus;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,12 +11,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -26,6 +31,9 @@ import java.util.ArrayList;
  */
 public class TaskViewerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private final String FILE_NAME = "stored_tasks";
+    private LinearLayout taskHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +63,14 @@ public class TaskViewerActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         // End navigation
 
-        LinearLayout taskHolder = (LinearLayout) findViewById(R.id.task_holder);
-
+        taskHolder = (LinearLayout) findViewById(R.id.task_holder);
+        getDataModels();
+        /*
         ArrayList<TaskModel> testModels = generateTestModels(getApplicationContext());
 
         for (TaskModel tm : testModels) {
             taskHolder.addView(new TaskView(getApplicationContext(), null, tm));
-        }
+        }*/
     }
 
     /* -- DEBUG -- */
@@ -84,6 +93,39 @@ public class TaskViewerActivity extends AppCompatActivity
                 ContextCompat.getColor(context, R.color.taskIndigo)));
 
         return models;
+    }
+
+    private void getDataModels(){
+        StringBuilder jsonContent = new StringBuilder();
+
+        // Retrieve content from file
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput(FILE_NAME);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                jsonContent.append(line);
+            }
+            fis.close();
+        } catch (FileNotFoundException e) {
+            Log.d("FILE", "Failed to create file");
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.d("FILE", "Failed to write file");
+            e.printStackTrace();
+        }
+
+        // Convert back to object
+        SavePackage save;
+        Gson gson = new Gson();
+        save = gson.fromJson(jsonContent.toString(), SavePackage.class);
+
+        for (TaskModel tm : save.getTaskModels()) {
+            taskHolder.addView(new TaskView(getApplicationContext(), null, tm));
+
+        }
     }
 
     /* -- NAVIGATION -- */
