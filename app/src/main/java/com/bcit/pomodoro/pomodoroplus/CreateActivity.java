@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class CreateActivity extends AppCompatActivity {
+    private static final String TAG = "CreateActivity";
 
     private EditText etTitle, etDuration;
     private int color;
@@ -108,55 +109,84 @@ public class CreateActivity extends AppCompatActivity {
 
         }*/
 
-        TaskModel toSave = new TaskModel(title, category, duration, ContextCompat.getColor(getApplicationContext(), color));
+        TaskModel toSave = new TaskModel(title, category, duration,
+                ContextCompat.getColor(getApplicationContext(), color));
 
         StringBuilder jsonContent = new StringBuilder();
         FileInputStream fis = null;
         FileOutputStream fos = null;
-        String hello = "./" + FILE_NAME;
-        File file = new File(hello);
+        String filePath = FILE_NAME;
+        // TODO: Below line is the fix (and make sure it's just file name now, not file path)
+        File file = new File(getApplicationContext().getFilesDir(), filePath);
+
+        /// DEBUG
+        Log.d(TAG, file.getAbsolutePath());
+
+        String[] allFiles = getApplicationContext().fileList();
+        StringBuilder fatString = new StringBuilder();
+        for (String s : allFiles) {
+            fatString.append(s + " ");
+        }
+        Log.d(TAG, fatString.toString());
+
+        if (file.exists()) {
+            Log.d(TAG, "file exists");
+        } else {
+            Log.d(TAG, "file does not exist");
+        }
+        /// end DEBUG
 
         try {
             //CREATING THE FILE IF IT DOESN'T EXIST USING FILEOUTPUT BECAUSE file.createFile() FAILS :'(;
             if(!file.exists()) {
-                Toast.makeText(getApplicationContext(), "creating", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "File does not exist, creating");
+
+                // Create save package
+                ArrayList<TaskModel> newTm = new ArrayList<>();
+                newTm.add(toSave);
+                SavePackage save = new SavePackage(newTm);
+
+                // Serialize new save package
+                Gson gson = new Gson();
+                String content = gson.toJson(save);
+
+                // Create file
                 fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+                fos.write(content.getBytes());
+                fos.close();
+
+                Toast.makeText(getApplicationContext(), "creating", Toast.LENGTH_SHORT).show();
+
+            } else {
+                Log.d(TAG, "Existing file found, appending");
+
+                // Read existing data
+                fis = openFileInput(FILE_NAME);
+                InputStreamReader isr = new InputStreamReader(fis);
+                BufferedReader br = new BufferedReader(isr);
+                String line;
+                while ((line = br.readLine()) != null) {
+                    jsonContent.append(line);
+                }
+                fis.close();
+
+                // Convert back to object
+                SavePackage save;
+                Gson gson = new Gson();
+                save = gson.fromJson(jsonContent.toString(), SavePackage.class);
+
+                // Add our new task
+                save.getTaskModels().add(toSave);
+
+                // Reserialize
+                String content = gson.toJson(save);
+
+                // Overwrite file
+                fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+                fos.write(content.getBytes());
                 fos.close();
             }
-            fis = openFileInput(FILE_NAME);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            String line;
-            while ((line = br.readLine()) != null) {
-                jsonContent.append(line);
-            }
-            fis.close();
 
-            ArrayList<TaskModel> newTm = new ArrayList<>();
-            SavePackage save;
-            Gson gson = new Gson();
-            save = gson.fromJson(jsonContent.toString(), SavePackage.class);
-            if(save == null) {
-                save = new SavePackage(new ArrayList<TaskModel>());
-                Toast.makeText(getApplicationContext(), "again", Toast.LENGTH_SHORT).show();
-            }
-            save.setTaskModels(toSave);
-            //newTm.add(toSave);
-            for (TaskModel tm : save.getTaskModels()) {
-                newTm.add(tm);
-            }
-
-            //jsonContent.append(toSave);
-            //SavePackage save = new SavePackage(tm);
-
-            save = new SavePackage(newTm);
-            //save.setTaskModels(toSave);
-            String content = gson.toJson(save);
-            //jsonContent.append(content);
-
-            fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-            fos.write(content.getBytes());
-            fos.close();
         } catch (FileNotFoundException e) {
             Log.d("FILE", "Failed to create file");
             e.printStackTrace();
