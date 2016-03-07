@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -97,6 +98,13 @@ public class TaskViewerActivity extends AppCompatActivity
 
     private void getDataModels(){
         StringBuilder jsonContent = new StringBuilder();
+        File file = new File(getApplicationContext().getFilesDir(), FILE_NAME);
+
+        if(!file.exists()) {
+            taskHolder.addView(new TaskView(getApplicationContext(), null,
+                    new TaskModel("No Tasks Assigned Yet!", "", 0, R.color.colorPrimary)));
+            return;
+        }
 
         // Retrieve content from file
         FileInputStream fis = null;

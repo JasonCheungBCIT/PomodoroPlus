@@ -56,7 +56,8 @@ public class TaskView extends RelativeLayout {
 
         this.title.setText(model.getTitle());
         this.category.setText(model.getCategory());
-        this.duration.setText(Long.toString(model.getTimeLeft() / 1000 / 60) + " min");
+        //no mins should be shown when there are no tasks, so ternary operator will handle that
+        this.duration.setText((model.getTimeLeft() != 0) ? Long.toString(model.getTimeLeft() / 1000 / 60) + " min" : "");
         this.taskView.setBackgroundColor(model.getBgColor());
     }
 
