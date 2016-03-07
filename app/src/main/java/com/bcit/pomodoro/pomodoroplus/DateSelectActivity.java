@@ -1,5 +1,6 @@
 package com.bcit.pomodoro.pomodoroplus;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +23,7 @@ public class DateSelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.date_select_activity);
+        setContentView(R.layout.activity_date_select);
 
         cal = (DatePicker) findViewById(R.id.datePicker);
 
@@ -45,6 +46,7 @@ public class DateSelectActivity extends AppCompatActivity {
         month   = cal.getMonth();
         day     = cal.getDayOfMonth();
         printSelectedDate();
+        startCreateTaskActivity();
     }
 
     public void onTodayClick(View view) {
@@ -54,6 +56,7 @@ public class DateSelectActivity extends AppCompatActivity {
         day     = c.get(Calendar.DAY_OF_MONTH);
         cal.updateDate(year, month, day);   // Visual update
         printSelectedDate();
+        startCreateTaskActivity();
     }
 
     public void onTomorrowClick(View view) {
@@ -64,5 +67,14 @@ public class DateSelectActivity extends AppCompatActivity {
         day     = c.get(Calendar.DAY_OF_MONTH);
         cal.updateDate(year, month, day);   // Visual update
         printSelectedDate();
+        startCreateTaskActivity();
+    }
+
+    private void startCreateTaskActivity() {
+        Intent intent = new Intent(this, CreateActivity.class);
+        intent.putExtra("year", year);
+        intent.putExtra("month", month);
+        intent.putExtra("day", day);
+        startActivity(intent);
     }
 }

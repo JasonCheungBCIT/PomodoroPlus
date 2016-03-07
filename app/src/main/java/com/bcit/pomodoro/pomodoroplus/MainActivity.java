@@ -33,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onMainFlowClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainFlow.class);
+        startActivity(intent);
+    }
+
     /*
     public void onJasonClick(View view) {
         Intent intent = new Intent(getApplicationContext(), JasonTestBench.class);

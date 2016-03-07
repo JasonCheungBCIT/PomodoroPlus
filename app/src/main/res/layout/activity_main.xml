@@ -139,18 +139,26 @@
 
     </TableLayout>
 
-
-
-
-<!--
     <Button
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jason Testing Area"
-        android:id="@+id/button6"
-        android:onClick="onJasonClick"
-        android:layout_below="@+id/btSettings"
-        android:layout_centerHorizontal="true" />-->
+        android:text="Sorry Manjot"
+        android:id="@+id/button2"
+        android:onClick="onMainFlowClick"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+
+    <!--
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jason Testing Area"
+            android:id="@+id/button6"
+            android:onClick="onJasonClick"
+            android:layout_below="@+id/btSettings"
+            android:layout_centerHorizontal="true" />-->
 
 
 </RelativeLayout>

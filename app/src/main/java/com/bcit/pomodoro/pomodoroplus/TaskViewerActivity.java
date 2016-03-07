@@ -65,7 +65,9 @@ public class TaskViewerActivity extends AppCompatActivity
         // End navigation
 
         taskHolder = (LinearLayout) findViewById(R.id.task_holder);
-        getDataModels();
+        // getDataModels();
+        loadTasks(retrieveTasks());
+
         /*
         ArrayList<TaskModel> testModels = generateTestModels(getApplicationContext());
 
@@ -132,9 +134,46 @@ public class TaskViewerActivity extends AppCompatActivity
 
         for (TaskModel tm : save.getTaskModels()) {
             taskHolder.addView(new TaskView(getApplicationContext(), null, tm));
-
         }
     }
+
+    /* -- LOGIC -- */
+    private ArrayList<TaskModel> retrieveTasks() {
+        StringBuilder jsonContent = new StringBuilder();
+
+        // Retrieve content from file
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput(DateHelper.getTodayString());
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                jsonContent.append(line);
+            }
+            fis.close();
+        } catch (FileNotFoundException e) {
+            Log.d("FILE", "Failed to create file");
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.d("FILE", "Failed to write file");
+            e.printStackTrace();
+        }
+
+        // Convert back to object
+        SavePackage save;
+        Gson gson = new Gson();
+        save = gson.fromJson(jsonContent.toString(), SavePackage.class);
+
+        return save.getTaskModels();
+    }
+
+    private void loadTasks(ArrayList<TaskModel> taskModels) {
+        for (TaskModel tm : taskModels) {
+            taskHolder.addView(new TaskView(getApplicationContext(), null, tm));
+        }
+    }
+
 
     /* -- NAVIGATION -- */
     @Override

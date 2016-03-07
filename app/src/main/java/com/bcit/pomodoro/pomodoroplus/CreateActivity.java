@@ -32,6 +32,7 @@ public class CreateActivity extends AppCompatActivity {
     private Spinner              sCategory, sPriority, sColor;
     private ArrayAdapter<String> categoryAdapter, priorityAdapter, colorAdapter;
     private static final String  FILE_NAME = "stored_tasks";
+    private String              fileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,13 @@ public class CreateActivity extends AppCompatActivity {
         sCategory.setAdapter(categoryAdapter);
         sColor.setAdapter(colorAdapter);
         sPriority.setAdapter(priorityAdapter);
+
+        // Retrieve date information
+        fileName = DateHelper.createDateString(
+                getIntent().getIntExtra("day", 1),
+                getIntent().getIntExtra("month", 1),
+                getIntent().getIntExtra("year", 2000)
+        );
     }
 
     private int findColor() {
@@ -120,7 +128,7 @@ public class CreateActivity extends AppCompatActivity {
 
         // TODO: Below line is the fix (and make sure it's just file name now, not file path)
         jsonContent = new StringBuilder();
-        file        = new File(getApplicationContext().getFilesDir(), FILE_NAME);
+        file        = new File(getApplicationContext().getFilesDir(), fileName);
 
         /// DEBUG
         Log.d(TAG, file.getAbsolutePath());
@@ -154,14 +162,14 @@ public class CreateActivity extends AppCompatActivity {
                 String content = gson.toJson(save);
 
                 // Create file
-                fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+                fos = openFileOutput(fileName, Context.MODE_PRIVATE);
                 fos.write(content.getBytes());
                 fos.close();
             } else {
                 Log.d(TAG, "Existing file found, appending");
 
                 // Read existing data
-                fis = openFileInput(FILE_NAME);
+                fis = openFileInput(fileName);
                 InputStreamReader isr = new InputStreamReader(fis);
                 BufferedReader br = new BufferedReader(isr);
                 String line;
@@ -182,7 +190,7 @@ public class CreateActivity extends AppCompatActivity {
                 String content = gson.toJson(save);
 
                 // Overwrite file
-                fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+                fos = openFileOutput(fileName, Context.MODE_PRIVATE);
                 fos.write(content.getBytes());
                 fos.close();
             }
@@ -194,7 +202,13 @@ public class CreateActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        startActivity(new Intent(this, MainActivity.class));
+        Toast.makeText(this, "Task created!", Toast.LENGTH_SHORT).show();
+
+        // startActivity(new Intent(this, MainActivity.class));
+    }
+
+    public void onDoneClick(View view) {
+        startActivity(new Intent(this, MainFlow.class));
     }
 }
 
