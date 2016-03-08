@@ -13,10 +13,13 @@
 <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="#eeffffff"
     android:elevation="3dp"
     android:padding="10dp"
+    android:layout_marginBottom="15dp"
     android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true">
+    android:layout_centerHorizontal="true"
+    android:id="@+id/relativeLayout">
 
     <EditText
         android:id="@+id/etName"
@@ -114,14 +117,27 @@
         android:layout_alignTop="@+id/button3"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
-
-
-
-
-
-
 </RelativeLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <LinearLayout
+            android:id="@+id/task_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Is programtically filled -->
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </RelativeLayout>
