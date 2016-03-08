@@ -3,6 +3,11 @@ package com.bcit.pomodoro.pomodoroplus;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -42,6 +48,7 @@ public class CreateActivity extends AppCompatActivity {
 
     private ArrayList<TaskModel> tasks;
     private int                  selectedColor;
+    private ImageView            ivColorSelector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +73,13 @@ public class CreateActivity extends AppCompatActivity {
         colorAdapter    = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, colorArray);
 
         taskHolder      = (LinearLayout) findViewById(R.id.task_holder);
-
+        ivColorSelector = (ImageView) findViewById(R.id.colorSelector);
         //categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sCategory.setAdapter(categoryAdapter);
         // sColor.setAdapter(colorAdapter);
         sPriority.setAdapter(priorityAdapter);
 
+        // Setup color picker
         colorPicker = new ColorPicker(this);
         colorPicker.setRoundButton(true);
         colorPicker.setColors(
@@ -82,35 +90,29 @@ public class CreateActivity extends AppCompatActivity {
                 ContextCompat.getColor(context, R.color.taskBlue),
                 ContextCompat.getColor(context, R.color.taskIndigo),
                 ContextCompat.getColor(context, R.color.taskViolet));
-
+        colorPicker.setDefaultColor(ContextCompat.getColor(context, R.color.taskRed));
         colorPicker.setFastChooser(new ColorPicker.OnFastChooseColorListener() {
             @Override
             public void setOnFastChooseColorListener(int position, int color) {
                 Toast.makeText(context, "color:" + color, Toast.LENGTH_SHORT).show();
+                // For the task
                 selectedColor = color;
+                // Visually update the color selector
+                Drawable background = ivColorSelector.getBackground();
+                if (background instanceof ShapeDrawable) {
+                    ((ShapeDrawable)background).getPaint().setColor(color);
+                } else if (background instanceof GradientDrawable) {
+                    ((GradientDrawable)background).setColor(color);
+                } else if (background instanceof ColorDrawable) {
+                    ((ColorDrawable)background).setColor(color);
+                }
+                // Visually update the color picker dialog
                 colorPicker.setDefaultColor(color);
                 colorPicker.dismissDialog();
             }
         });
-
-        /*
-        colorPicker.setFastChooser(new ColorPicker.OnFastChooseColorListener() {
-            @Override
-            public void setOnFastChooseColorListener(int position, int color) {
-                colorPicker.dismissDialog();
-            }
-        }).setNegativeButton("DEFAULT",new ColorPicker.OnButtonListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("DEFAULT","default");
-            }
-        }).setPositiveButton("CANCEL", new ColorPicker.OnButtonListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("CANCEL","cancel");
-            }
-        }).setDefaultColor(Color.parseColor("#f84c44")).setColumns(5).setDialogFullHeight().show();
-*/
+        selectedColor = ContextCompat.getColor(context, R.color.taskRed);   // Default color
+        // TODO: reset the default color of the color selector
 
         // Retrieve date information
         fileName = DateHelper.createDateString(
