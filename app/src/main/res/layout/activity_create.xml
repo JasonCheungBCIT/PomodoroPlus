@@ -15,28 +15,32 @@
         android:layout_height="wrap_content"
         android:textStyle="normal"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_marginTop="10dp"
         android:text="Title:"
         android:textIsSelectable="false"
-        android:id="@+id/tvTitle" />
+        android:id="@+id/tvTitle"
+        android:layout_alignBottom="@+id/etName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTitle"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/tvCategory"
+        android:layout_toEndOf="@+id/tvCategory" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvDuration"
         android:textStyle="normal"
-        android:layout_below="@id/etName"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_marginTop="15dp"
-        android:text="Duration:"/>
+        android:text="Duration:"
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/etName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="match_parent"
@@ -44,50 +48,52 @@
         android:inputType="time"
         android:ems="10"
         android:id="@+id/etDuration"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="100dp"
-        android:layout_marginTop="5dp"
-        android:layout_below="@+id/etName"
-        android:layout_toRightOf="@id/tvDuration"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_above="@+id/tvCategory"
+        android:layout_toRightOf="@+id/tvCategory"
+        android:layout_toEndOf="@+id/tvCategory" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvCategory"
         android:textStyle="normal"
-        android:layout_below="@id/tvDuration"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_marginTop="25dp"
-        android:text="Category:" />
+        android:text="Category:"
+        android:layout_below="@+id/tvDuration"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="19dp" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinCategory"
-        android:layout_below="@+id/etDuration"
-        android:layout_toRightOf="@id/tvCategory"
-        android:layout_marginTop="12dp"
-        android:entries="@array/category_arrays" />
+        android:entries="@array/category_arrays"
+        android:layout_alignTop="@+id/tvCategory"
+        android:layout_toRightOf="@+id/tvCategory"
+        android:layout_toEndOf="@+id/tvCategory"
+        android:layout_alignBottom="@+id/tvCategory" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvPriority"
         android:textStyle="normal"
-        android:layout_below="@id/tvCategory"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_marginTop="40dp"
-        android:text="Priority:" />
+        android:text="Priority:"
+        android:layout_below="@+id/tvCategory"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="25dp" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinPriority"
-        android:layout_below="@+id/spinCategory"
-        android:layout_toRightOf="@id/tvCategory"
-        android:layout_marginTop="18dp" />
+        android:layout_alignTop="@+id/tvPriority"
+        android:layout_alignLeft="@+id/spinCategory"
+        android:layout_alignStart="@+id/spinCategory"
+        android:layout_above="@+id/tvColor" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -103,9 +109,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinColor"
-        android:layout_below="@+id/spinPriority"
-        android:layout_toRightOf="@id/tvCategory"
-        android:layout_marginTop="23dp" />
+        android:layout_alignTop="@+id/tvColor"
+        android:layout_alignLeft="@+id/spinPriority"
+        android:layout_alignStart="@+id/spinPriority"
+        android:layout_alignBottom="@+id/tvColor" />
 
 
     <Button
@@ -114,7 +121,7 @@
         android:text="Create Task"
         android:id="@+id/button3"
         android:onClick="verifyInfo"
-        android:layout_below="@+id/spinColor"
+        android:layout_above="@+id/button"
         android:layout_centerHorizontal="true" />
 
     <Button

@@ -3,6 +3,7 @@ package com.bcit.pomodoro.pomodoroplus;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -24,29 +25,34 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import petrov.kristiyan.colorpicker.ColorPicker;
+
 public class CreateActivity extends AppCompatActivity {
     private static final String TAG = "CreateActivity";
 
+    private Context             context;
     private EditText             etTitle, etDuration;
     private int                  color;
-    private Spinner              sCategory, sPriority, sColor;
+    private Spinner              sCategory, sPriority; // sColor;
     private ArrayAdapter<String> categoryAdapter, priorityAdapter, colorAdapter;
     private static final String  FILE_NAME = "stored_tasks";
     private String              fileName;
+    private ColorPicker         colorPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create);
+        setContentView(R.layout.activity_create_2);
 
         final Resources res;
         final String[] categoryArray, colorArray, priorityArray;
+        context = this;
 
         etTitle         = (EditText) findViewById(R.id.etName);
         etDuration      = (EditText) findViewById(R.id.etDuration);
         sCategory       = (Spinner) findViewById(R.id.spinCategory);
         sPriority       = (Spinner) findViewById(R.id.spinPriority);
-        sColor          = (Spinner) findViewById(R.id.spinColor);
+        // sColor          = (Spinner) findViewById(R.id.spinColor);
         res             = getResources();
         categoryArray   = res.getStringArray(R.array.category_arrays);
         colorArray      = res.getStringArray(R.array.color_arrays);
@@ -57,8 +63,43 @@ public class CreateActivity extends AppCompatActivity {
 
         //categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sCategory.setAdapter(categoryAdapter);
-        sColor.setAdapter(colorAdapter);
+        // sColor.setAdapter(colorAdapter);
         sPriority.setAdapter(priorityAdapter);
+
+        colorPicker = new ColorPicker(this);
+        colorPicker.setRoundButton(true);
+        colorPicker.setColors(
+                ContextCompat.getColor(context, R.color.taskRed),
+                ContextCompat.getColor(context, R.color.taskGreen),
+                ContextCompat.getColor(context, R.color.taskBlue),
+                ContextCompat.getColor(context, R.color.taskViolet));
+
+        colorPicker.setFastChooser(new ColorPicker.OnFastChooseColorListener() {
+            @Override
+            public void setOnFastChooseColorListener(int position, int color) {
+                Toast.makeText(context, "color:" + color, Toast.LENGTH_SHORT).show();
+                colorPicker.dismissDialog();
+            }
+        });
+
+        /*
+        colorPicker.setFastChooser(new ColorPicker.OnFastChooseColorListener() {
+            @Override
+            public void setOnFastChooseColorListener(int position, int color) {
+                colorPicker.dismissDialog();
+            }
+        }).setNegativeButton("DEFAULT",new ColorPicker.OnButtonListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("DEFAULT","default");
+            }
+        }).setPositiveButton("CANCEL", new ColorPicker.OnButtonListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CANCEL","cancel");
+            }
+        }).setDefaultColor(Color.parseColor("#f84c44")).setColumns(5).setDialogFullHeight().show();
+*/
 
         // Retrieve date information
         fileName = DateHelper.createDateString(
@@ -73,7 +114,7 @@ public class CreateActivity extends AppCompatActivity {
         String  selectedColor;
 
         color           = R.color.taskRed;
-        selectedColor   = sColor.getSelectedItem().toString();
+        selectedColor   = "Asf";//sColor.getSelectedItem().toString();
 
         switch(selectedColor) {
             case "Red":
@@ -205,6 +246,10 @@ public class CreateActivity extends AppCompatActivity {
         Toast.makeText(this, "Task created!", Toast.LENGTH_SHORT).show();
 
         // startActivity(new Intent(this, MainActivity.class));
+    }
+
+    public void onColorClick(View view) {
+        colorPicker.show();
     }
 
     public void onDoneClick(View view) {
