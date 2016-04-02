@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -161,14 +162,23 @@ public class TaskViewerActivity extends AppCompatActivity
         }
 
         // Convert back to object
-        SavePackage save;
-        Gson gson = new Gson();
-        save = gson.fromJson(jsonContent.toString(), SavePackage.class);
+        try{
+            SavePackage save;
+            Gson gson = new Gson();
+            save = gson.fromJson(jsonContent.toString(), SavePackage.class);
 
-        return save.getTaskModels();
+            return save.getTaskModels();
+
+        }catch(NullPointerException e){
+            Toast.makeText(getApplicationContext(), "You do not have any tasks!", Toast.LENGTH_LONG);
+            return null;
+        }
     }
 
     private void loadTasks(ArrayList<TaskModel> taskModels) {
+        if(taskModels == null){
+            return;
+        }
         for (TaskModel tm : taskModels) {
             taskHolder.addView(new TaskView(getApplicationContext(), null, tm));
         }
