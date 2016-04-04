@@ -1,8 +1,12 @@
 package com.bcit.pomodoro.pomodoroplus;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,6 +20,8 @@ public class TaskView extends RelativeLayout {
     protected TextView title, category, duration;
     protected long timeLeft;  // TODO: Investigate holding time-left or just the deadline.
     protected int bgColor;    // Stored in res/values/colors
+    protected Context f;
+
 
 
     /* -- CONSTRUCTOR -- */
@@ -42,9 +48,9 @@ public class TaskView extends RelativeLayout {
         this.taskView.setBackgroundColor(color);
     }
 
-    public TaskView (Context context, AttributeSet attrs, TaskModel model) {
+    public TaskView (final Context context, AttributeSet attrs,final TaskModel model, Context c) {
         super(context, attrs);
-
+        f = c;
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.task_view, this);
 
@@ -59,6 +65,27 @@ public class TaskView extends RelativeLayout {
         //no mins should be shown when there are no tasks, so ternary operator will handle that
         this.duration.setText((model.getTimeLeft() != 0) ? Long.toString(model.getTimeLeft() / 1000 / 60) + " min" : "");
         this.taskView.setBackgroundColor(model.getBgColor());
+
+        this.taskView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(f);
+                dialogBuilder.setMessage("Delete task?");
+                dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        taskView.setBackgroundColor(Color.GRAY);
+                        model.setAlive(false);
+                    }
+                });
+                dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        //do nothing
+                    }
+                });
+                AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.show();
+            }
+        });
+
     }
 
     /* -- GETS AND SETS -- */
@@ -94,6 +121,8 @@ public class TaskView extends RelativeLayout {
     public void setBgColor(int bgColor) {
         this.bgColor = bgColor;
     }
+
+
 }
 
 // TODO: this stupid color system.

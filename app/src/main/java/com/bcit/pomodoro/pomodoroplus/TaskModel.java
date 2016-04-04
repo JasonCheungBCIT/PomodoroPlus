@@ -8,6 +8,7 @@ public class TaskModel {
     private String title, category;
     private long timeLeft;  // TODO: Investigate holding time-left or just the deadline.
     private int bgColor;    // Note: Actual color value.
+    private boolean alive = true;
 
     public TaskModel(String title, String category, long duration, int color) {
         this.title    = title;
@@ -45,4 +46,8 @@ public class TaskModel {
     public void setBgColor(int bgColor) {
         this.bgColor = bgColor;
     }
+
+    public void setAlive(boolean live){this.alive  = live;}
+
+    public boolean getAlive(){return alive;};
 }

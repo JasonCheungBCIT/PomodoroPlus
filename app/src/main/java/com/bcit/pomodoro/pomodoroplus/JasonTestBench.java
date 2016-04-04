@@ -130,7 +130,7 @@ public class JasonTestBench extends Activity {
 
         // Load the object
         for (TaskModel tm : save.getTaskModels()) {
-            taskHolder.addView(new TaskView(getApplicationContext(), null, tm));
+          // taskHolder.addView(new TaskView(getApplicationContext(), null, tm));
         }
 
         displayAllFiles();

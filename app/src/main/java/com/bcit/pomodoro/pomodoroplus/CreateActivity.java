@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -171,7 +170,7 @@ public class CreateActivity extends AppCompatActivity {
 
     private void displayAllTasks(ArrayList<TaskModel> taskModels) {
         for (TaskModel tm : taskModels) {
-            taskHolder.addView(new TaskView(getApplicationContext(), null, tm));
+            taskHolder.addView(new TaskView(getApplicationContext(), null, tm, CreateActivity.this));
         }
     }
 
@@ -229,7 +228,7 @@ public class CreateActivity extends AppCompatActivity {
         }
 
         tasks.add(toSave);
-        taskHolder.addView(new TaskView(getApplicationContext(), null, toSave), 0);
+        taskHolder.addView(new TaskView(getApplicationContext(), null, toSave, CreateActivity.this), 0);
 
     }
 
@@ -247,6 +246,9 @@ public class CreateActivity extends AppCompatActivity {
         file        = new File(getApplicationContext().getFilesDir(), fileName);
 
         try {
+            //Update tasks before saving
+            updateTasks(tasks);
+
             //CREATING THE FILE IF IT DOESN'T EXIST USING FILEOUTPUT BECAUSE file.createFile() FAILS :'(;
             Log.d(TAG, "File does not exist, creating");
 
@@ -276,6 +278,14 @@ public class CreateActivity extends AppCompatActivity {
 
 
         startActivity(new Intent(this, MainFlow.class));
+    }
+
+    public void updateTasks(ArrayList<TaskModel> temp){
+        for(TaskModel t : temp){
+            if(!(t.getAlive())){
+                tasks.remove(t);
+            }
+        }
     }
 }
 

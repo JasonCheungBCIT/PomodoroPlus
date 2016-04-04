@@ -105,7 +105,7 @@ public class TaskViewerActivity extends AppCompatActivity
 
         if(!file.exists()) {
             taskHolder.addView(new TaskView(getApplicationContext(), null,
-                    new TaskModel("No Tasks Assigned Yet!", "", 0, R.color.colorPrimary)));
+                    new TaskModel("No Tasks Assigned Yet!", "", 0, R.color.colorPrimary), TaskViewerActivity.this));
             return;
         }
 
@@ -134,7 +134,7 @@ public class TaskViewerActivity extends AppCompatActivity
         save = gson.fromJson(jsonContent.toString(), SavePackage.class);
 
         for (TaskModel tm : save.getTaskModels()) {
-            taskHolder.addView(new TaskView(getApplicationContext(), null, tm));
+            taskHolder.addView(new TaskView(getApplicationContext(), null, tm, TaskViewerActivity.this));
         }
     }
 
@@ -180,7 +180,7 @@ public class TaskViewerActivity extends AppCompatActivity
             return;
         }
         for (TaskModel tm : taskModels) {
-            taskHolder.addView(new TaskView(getApplicationContext(), null, tm));
+            taskHolder.addView(new TaskView(getApplicationContext(), null, tm, TaskViewerActivity.this));
         }
     }
 
@@ -210,6 +210,7 @@ public class TaskViewerActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
