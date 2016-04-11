@@ -1,14 +1,14 @@
 package com.bcit.pomodoro.pomodoroplus;
 
-import android.app.Notification;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +31,17 @@ public class MainActivity extends AppCompatActivity {
     public void onCreateClick(View view) {
         //Intent intent = new Intent(getApplicationContext(), CreateActivity.class);
         //startActivity(intent);
+
+        AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent= new Intent(getApplicationContext(), NotificationReceiver.class);
+        intent.putExtra("content", "Hello World");
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.SECOND, 10);
+        long time = c.getTimeInMillis();
+        manager.set(AlarmManager.RTC_WAKEUP, time, alarmIntent);
+
+        /**Notification
         NotificationCompat.Builder  builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.pomo);
         builder.setContentTitle("Notification test");
@@ -44,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         Notification test = builder.build();
         NotificationManagerCompat.from(this).notify(0, test);
-     //   Toast.makeText(getApplicationContext(), "End", Toast.LENGTH_LONG).show();
+         */
     }
 
     public void onSettingClick(View view) {

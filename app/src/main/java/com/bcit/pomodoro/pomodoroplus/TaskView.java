@@ -66,25 +66,29 @@ public class TaskView extends RelativeLayout {
         this.duration.setText((model.getTimeLeft() != 0) ? Long.toString(model.getTimeLeft() / 1000 / 60) + " min" : "");
         this.taskView.setBackgroundColor(model.getBgColor());
 
-        this.taskView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(f);
-                dialogBuilder.setMessage("Delete task?");
-                dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        taskView.setBackgroundColor(Color.GRAY);
-                        model.setAlive(false);
+        if(f instanceof CreateActivity){
+            this.taskView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    if(model.getAlive()){
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(f);
+                        dialogBuilder.setMessage("Delete task?");
+                        dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                taskView.setBackgroundColor(Color.GRAY);
+                                model.setAlive(false);
+                            }
+                        });
+                        dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                //do nothing
+                            }
+                        });
+                        AlertDialog alertDialog = dialogBuilder.create();
+                        alertDialog.show();
                     }
-                });
-                dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        //do nothing
-                    }
-                });
-                AlertDialog alertDialog = dialogBuilder.create();
-                alertDialog.show();
-            }
-        });
+                }
+            });
+        }
 
     }
 

@@ -6,15 +6,17 @@ package com.bcit.pomodoro.pomodoroplus;
 public class TaskModel {
 
     private String title, category;
+    private String priority;
     private long timeLeft;  // TODO: Investigate holding time-left or just the deadline.
     private int bgColor;    // Note: Actual color value.
     private boolean alive = true;
 
-    public TaskModel(String title, String category, long duration, int color) {
+    public TaskModel(String title, String category, long duration, int color, String priority) {
         this.title    = title;
         this.category = category;
         this.timeLeft = duration;
         this.bgColor  = color;
+        this.priority = priority;
     }
 
     public String getTitle() {
@@ -49,5 +51,7 @@ public class TaskModel {
 
     public void setAlive(boolean live){this.alive  = live;}
 
-    public boolean getAlive(){return alive;};
+    public boolean getAlive(){return alive;}
+
+    public String getPriority(){ return priority; }
 }

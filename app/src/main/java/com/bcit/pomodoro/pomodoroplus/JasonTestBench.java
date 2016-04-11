@@ -1,9 +1,7 @@
 package com.bcit.pomodoro.pomodoroplus;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -14,7 +12,6 @@ import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -49,7 +46,7 @@ public class JasonTestBench extends Activity {
         }
         fileDisplay.setText(fatString.toString());
     }
-
+/*
     private static ArrayList<TaskModel> generateTestModels(Context context) {
 
         ArrayList<TaskModel> models = new ArrayList<>();
@@ -99,7 +96,7 @@ public class JasonTestBench extends Activity {
 
         displayAllFiles();
     }
-
+*/
     public void onLoadFileClick(View view) {
         String FILENAME = FILE_NAME + counter;
         StringBuilder jsonContent = new StringBuilder();

@@ -45,9 +45,10 @@ public class CreateActivity extends AppCompatActivity {
     private ColorPicker         colorPicker;
     private LinearLayout taskHolder;
 
-    private ArrayList<TaskModel> tasks;
+    private ArrayList<TaskModel> tasks, original;
     private int                  selectedColor;
     private ImageView            ivColorSelector;
+    //private ModifyTasks         modify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,7 +210,7 @@ public class CreateActivity extends AppCompatActivity {
     }
 
     public void verifyInfo(View v) {
-        String              title, sDuration, category;
+        String              title, sDuration, category, priority;
         long                duration;
         int                 color;
         TaskModel           toSave;
@@ -218,15 +219,15 @@ public class CreateActivity extends AppCompatActivity {
         sDuration   = etDuration.getText().toString();
         title       = etTitle.getText().toString();
         category    = sCategory.getSelectedItem().toString();
+        priority    = sPriority.getSelectedItem().toString();
         duration    = (sDuration.equals("")) ? 0 : Long.parseLong(sDuration);
         duration    = duration * 1000 * 60;
-        toSave      = new TaskModel(title, category, duration, selectedColor);
+        toSave      = new TaskModel(title, category, duration, selectedColor, priority);
 
         if(title.equals("") || duration == 0) {
             Toast.makeText(getApplicationContext(), "Please enter all fields!", Toast.LENGTH_LONG).show();
             return;
         }
-
         tasks.add(toSave);
         taskHolder.addView(new TaskView(getApplicationContext(), null, toSave, CreateActivity.this), 0);
 
@@ -246,8 +247,15 @@ public class CreateActivity extends AppCompatActivity {
         file        = new File(getApplicationContext().getFilesDir(), fileName);
 
         try {
+            //modify = new ModifyTasks(tasks);
             //Update tasks before saving
             updateTasks(tasks);
+            /*modify.splitTasks(tasks);
+            tasks = modify.returnTasks();
+            modify.insertBreaks(tasks);
+            modify.setNotifications(tasks);
+            tasks = modify.returnTasks();*/
+            Log.d("Size ", String.valueOf(tasks.size()));
 
             //CREATING THE FILE IF IT DOESN'T EXIST USING FILEOUTPUT BECAUSE file.createFile() FAILS :'(;
             Log.d(TAG, "File does not exist, creating");
@@ -287,5 +295,6 @@ public class CreateActivity extends AppCompatActivity {
             }
         }
     }
+
 }
 
