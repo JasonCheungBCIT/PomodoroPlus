@@ -1,5 +1,6 @@
 package com.bcit.pomodoro.pomodoroplus;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -36,6 +37,9 @@ public class TaskViewerActivity extends AppCompatActivity {
         taskHolder = (LinearLayout) findViewById(R.id.task_holder);
         // getDataModels();
         loadTasks(retrieveTasks());
+
+        Intent intent = getIntent();
+        Log.d("DEBUG", String.valueOf(intent.getBooleanExtra("next-task-flag", false)));
 
         /*
         ArrayList<TaskModel> testModels = generateTestModels(getApplicationContext());
@@ -148,10 +152,12 @@ public class TaskViewerActivity extends AppCompatActivity {
         if(taskModels == null){
             return;
         }
+
         ArrayList<TaskModel> temp = new ArrayList<TaskModel>();
         for(TaskModel t: taskModels){
             temp.add(t);
         }
+
         modify = new ModifyTasks(temp);
         modify.splitTasks(temp);
         temp = modify.returnTasks();

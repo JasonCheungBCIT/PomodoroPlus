@@ -35,9 +35,10 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent= new Intent(getApplicationContext(), NotificationReceiver.class);
         intent.putExtra("content", "Hello World");
+        intent.putExtra("next-task-flag", true);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.SECOND, 10);
+        c.add(Calendar.SECOND, 2);
         long time = c.getTimeInMillis();
         manager.set(AlarmManager.RTC_WAKEUP, time, alarmIntent);
 
