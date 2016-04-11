@@ -1,14 +1,17 @@
 package com.bcit.pomodoro.pomodoroplus;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +37,7 @@ import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class CreateActivity extends AppCompatActivity {
     private static final String TAG = "CreateActivity";
+    private static int INDEX = 0;
 
     private Context             context;
     private EditText             etTitle, etDuration;
@@ -126,6 +130,11 @@ public class CreateActivity extends AppCompatActivity {
         if (tasks == null) {
             tasks = new ArrayList<>();
         }
+/*
+        Intent temp = getIntent();
+        if(temp.getBooleanExtra("reset", false)){
+            updateTasks(tasks);
+        }*/
         displayAllTasks(tasks);
     }
 
@@ -229,7 +238,10 @@ public class CreateActivity extends AppCompatActivity {
             return;
         }
         tasks.add(toSave);
-        taskHolder.addView(new TaskView(getApplicationContext(), null, toSave, CreateActivity.this), 0);
+        TaskView t = new TaskView(getApplicationContext(), null, toSave, CreateActivity.this);
+        t.setOnClickListener(new CustomListener(INDEX++, toSave));
+        taskHolder.addView(t, 0);
+
 
     }
 
@@ -295,6 +307,38 @@ public class CreateActivity extends AppCompatActivity {
             }
         }
     }
+
+    private class CustomListener implements View.OnClickListener {
+        int index;
+        TaskModel model;
+        public CustomListener(int n, TaskModel t){
+            index = n;
+            model = t;
+        }
+
+        @Override
+        public void onClick(View v) {
+           final TaskView taskView = (TaskView) v;
+            if(model.getAlive()){
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getApplicationContext());
+                dialogBuilder.setMessage("Delete task?");
+                dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        taskView.setBackgroundColor(Color.GRAY);
+                        model.setAlive(false);
+                    }
+                });
+                dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        //do nothing
+                    }
+                });
+                AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.show();
+            }
+        }
+    }
+
 
 }
 

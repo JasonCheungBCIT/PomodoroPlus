@@ -1,12 +1,8 @@
 package com.bcit.pomodoro.pomodoroplus;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,7 +17,6 @@ public class TaskView extends RelativeLayout {
     protected long timeLeft;  // TODO: Investigate holding time-left or just the deadline.
     protected int bgColor;    // Stored in res/values/colors
     protected Context f;
-
 
 
     /* -- CONSTRUCTOR -- */
@@ -65,30 +60,6 @@ public class TaskView extends RelativeLayout {
         //no mins should be shown when there are no tasks, so ternary operator will handle that
         this.duration.setText((model.getTimeLeft() != 0) ? Long.toString(model.getTimeLeft() / 1000 / 60) + " min" : "");
         this.taskView.setBackgroundColor(model.getBgColor());
-
-        if(f instanceof CreateActivity){
-            this.taskView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    if(model.getAlive()){
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(f);
-                        dialogBuilder.setMessage("Delete task?");
-                        dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                taskView.setBackgroundColor(Color.GRAY);
-                                model.setAlive(false);
-                            }
-                        });
-                        dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                //do nothing
-                            }
-                        });
-                        AlertDialog alertDialog = dialogBuilder.create();
-                        alertDialog.show();
-                    }
-                }
-            });
-        }
 
     }
 

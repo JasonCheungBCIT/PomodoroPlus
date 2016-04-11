@@ -3,7 +3,6 @@ package com.bcit.pomodoro.pomodoroplus;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -172,6 +171,13 @@ public class TaskViewerActivity extends AppCompatActivity {
             taskHolder.addView(new TaskView(getApplicationContext(), null, tm, TaskViewerActivity.this));
         }
     }
+
+    /*@Override
+    public void onBackPressed(){
+        Intent i = new Intent(getApplicationContext(), CreateActivity.class);
+        i.putExtra("reset", true);
+        startActivity(i);
+    }*/
 
 
 
