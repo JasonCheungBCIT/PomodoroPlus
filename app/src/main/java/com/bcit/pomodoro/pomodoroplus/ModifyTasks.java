@@ -24,7 +24,7 @@ public class ModifyTasks {
     public void splitTasks(ArrayList<TaskModel> temp){
         ArrayList<TaskModel> end = new ArrayList<TaskModel>();
         for(TaskModel t : temp){
-            int mins = (int)t.getTimeLeft() / 1000/60;
+            int mins = (int)t.getTimeLeft() / 1000 / 60;
             if(mins/25 >= 1 && mins/25 != 0){
                 int num25 = mins/25;
                 for(int i = 0; i < num25; i++){

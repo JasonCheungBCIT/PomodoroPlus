@@ -30,8 +30,6 @@ public class NotificationReceiver extends BroadcastReceiver {
         Notification test = builder.build();
         NotificationManagerCompat.from(context).notify(0, test);
 
-
-
     }
 
 

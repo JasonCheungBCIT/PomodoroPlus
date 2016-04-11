@@ -30,8 +30,8 @@ public class TaskViewerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_viewer);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
+        // Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        // setSupportActionBar(toolbar);
 
         taskHolder = (LinearLayout) findViewById(R.id.task_holder);
         // getDataModels();
@@ -161,7 +161,6 @@ public class TaskViewerActivity extends AppCompatActivity {
         temp = modify.returnTasks();
         modify.setNotifications(temp, getApplicationContext());
         temp = modify.returnTasks();
-
 
         for (TaskModel tm : temp) {
             taskHolder.addView(new TaskView(getApplicationContext(), null, tm, TaskViewerActivity.this));
