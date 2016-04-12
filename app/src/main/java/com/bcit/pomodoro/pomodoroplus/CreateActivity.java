@@ -263,7 +263,7 @@ public class CreateActivity extends AppCompatActivity {
                 if(file.exists())
                     file.delete();
                 Toast.makeText(getApplicationContext(), "You do not have any tasks to add!", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(this, MainActivity.class));
+                //startActivity(new Intent(this, MainActivity.class));
                 return;
             }
 
