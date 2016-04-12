@@ -37,7 +37,7 @@ import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class CreateActivity extends AppCompatActivity {
     private static final String TAG = "CreateActivity";
-    private static int INDEX = 0;
+    private int INDEX = 0;
 
     private Context             context;
     private EditText             etTitle, etDuration;
@@ -180,7 +180,9 @@ public class CreateActivity extends AppCompatActivity {
 
     private void displayAllTasks(ArrayList<TaskModel> taskModels) {
         for (TaskModel tm : taskModels) {
-            taskHolder.addView(new TaskView(getApplicationContext(), null, tm, CreateActivity.this));
+            TaskView tmp = new TaskView(getApplicationContext(), null, tm, CreateActivity.this);
+            tmp.setOnClickListener(new CustomListener(INDEX++, tm));
+            taskHolder.addView(tmp);
         }
     }
 
@@ -261,12 +263,21 @@ public class CreateActivity extends AppCompatActivity {
         try {
             //modify = new ModifyTasks(tasks);
             //Update tasks before saving
-            updateTasks(tasks);
+            //updateTasks(tasks);
             /*modify.splitTasks(tasks);
             tasks = modify.returnTasks();
             modify.insertBreaks(tasks);
             modify.setNotifications(tasks);
             tasks = modify.returnTasks();*/
+
+            if(checkEmpty(tasks)){
+                //File toDelete = new File(fileName);
+                if(file.exists())
+                    file.delete();
+                Toast.makeText(getApplicationContext(), "You do not have any tasks to add!", Toast.LENGTH_LONG).show();
+                return;
+            }
+
             Log.d("Size ", String.valueOf(tasks.size()));
 
             //CREATING THE FILE IF IT DOESN'T EXIST USING FILEOUTPUT BECAUSE file.createFile() FAILS :'(;
@@ -290,6 +301,9 @@ public class CreateActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.d("FILE", "Failed to write file");
             e.printStackTrace();
+        } catch (IllegalStateException e){
+            Log.d("Update", "Failed to update task arraylist");
+            e.printStackTrace();
         }
 
         Toast.makeText(this, "Task created!", Toast.LENGTH_SHORT).show();
@@ -308,9 +322,19 @@ public class CreateActivity extends AppCompatActivity {
         }
     }
 
+    public boolean checkEmpty(ArrayList<TaskModel> temp){
+        for(TaskModel t: temp){
+            if(t.getAlive()){
+                return false;
+            }
+        }
+        return true;
+    }
+
     private class CustomListener implements View.OnClickListener {
         int index;
         TaskModel model;
+        boolean alive = true;
         public CustomListener(int n, TaskModel t){
             index = n;
             model = t;
@@ -319,14 +343,15 @@ public class CreateActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
            final TaskView taskView = (TaskView) v;
-            if(model.getAlive()){
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getApplicationContext());
+            if(alive){
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CreateActivity.this);
                 dialogBuilder.setMessage("Delete task?");
                 dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        taskView.setBackgroundColor(Color.GRAY);
-                        model.setAlive(false);
-                    }
+                        taskView.taskView.setBackgroundColor(Color.GRAY);
+                        tasks.remove(index);
+                        alive = false;
+                        }
                 });
                 dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {

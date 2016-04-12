@@ -172,12 +172,11 @@ public class TaskViewerActivity extends AppCompatActivity {
         }
     }
 
-    /*@Override
+    @Override
     public void onBackPressed(){
-        Intent i = new Intent(getApplicationContext(), CreateActivity.class);
-        i.putExtra("reset", true);
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
-    }*/
+    }
 
 
 
