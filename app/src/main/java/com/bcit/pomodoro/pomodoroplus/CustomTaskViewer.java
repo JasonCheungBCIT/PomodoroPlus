@@ -106,4 +106,3 @@ public class CustomTaskViewer extends AppCompatActivity {
         return new DateFormatSymbols().getMonths()[month];
     }
 }
-x
