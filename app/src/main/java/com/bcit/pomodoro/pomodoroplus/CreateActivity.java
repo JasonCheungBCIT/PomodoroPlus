@@ -130,11 +130,7 @@ public class CreateActivity extends AppCompatActivity {
         if (tasks == null) {
             tasks = new ArrayList<>();
         }
-/*
-        Intent temp = getIntent();
-        if(temp.getBooleanExtra("reset", false)){
-            updateTasks(tasks);
-        }*/
+
         displayAllTasks(tasks);
     }
 
@@ -261,20 +257,13 @@ public class CreateActivity extends AppCompatActivity {
         file        = new File(getApplicationContext().getFilesDir(), fileName);
 
         try {
-            //modify = new ModifyTasks(tasks);
-            //Update tasks before saving
-            //updateTasks(tasks);
-            /*modify.splitTasks(tasks);
-            tasks = modify.returnTasks();
-            modify.insertBreaks(tasks);
-            modify.setNotifications(tasks);
-            tasks = modify.returnTasks();*/
 
             if(checkEmpty(tasks)){
                 //File toDelete = new File(fileName);
                 if(file.exists())
                     file.delete();
                 Toast.makeText(getApplicationContext(), "You do not have any tasks to add!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, MainActivity.class));
                 return;
             }
 

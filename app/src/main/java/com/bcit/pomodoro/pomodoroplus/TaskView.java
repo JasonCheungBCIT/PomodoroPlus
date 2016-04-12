@@ -39,7 +39,7 @@ public class TaskView extends RelativeLayout {
 
         this.title.setText(title);
         this.category.setText(category);
-        this.duration.setText(Long.toString(timeLeft / 1000 / 60) + " min");
+        this.duration.setText((timeLeft == -1) ? "" :Long.toString(timeLeft / 1000 / 60) + " min");
         this.taskView.setBackgroundColor(color);
     }
 

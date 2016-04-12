@@ -34,88 +34,20 @@ public class TaskViewerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_viewer);
-
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
-        // setSupportActionBar(toolbar);
+        setTitle("Tasks For Today");
 
         taskHolder = (LinearLayout) findViewById(R.id.task_holder);
         // getDataModels();
         SavePackage save = retrieveSave();
-        loadTasks(save.getTaskModels(), save.getCompletedTasks());
+        if(save != null)
+            loadTasks(save.getTaskModels(), save.getCompletedTasks());
+        else
+            taskHolder.addView(new TaskView(getApplicationContext(), null, "No Tasks For Today!", "", -1, R.color.colorPrimary));
 
         Intent intent = getIntent();
         Log.d("DEBUG", String.valueOf(intent.getBooleanExtra("next-task-flag", false)));
-
-        /*
-        ArrayList<TaskModel> testModels = generateTestModels(getApplicationContext());
-
-        for (TaskModel tm : testModels) {
-            taskHolder.addView(new TaskView(getApplicationContext(), null, tm));
-        }*/
     }
 
-    /* -- DEBUG -- */
-    // Currently doesn't generate any execercise / break models
-    /*
-    private static ArrayList<TaskModel> generateTestModels(Context context) {
-
-        ArrayList<TaskModel> models = new ArrayList<>();
-
-        models.add(new TaskModel("Android Dev", "Science", 15 * 60 * 1000,
-                ContextCompat.getColor(context, R.color.taskRed)));
-        models.add(new TaskModel("Literature", "Arts", 15 * 60 * 1000,
-                ContextCompat.getColor(context, R.color.taskOrange)));
-        models.add(new TaskModel("Push-ups!", "Exercise", 5 * 60 * 1000,
-                ContextCompat.getColor(context, R.color.taskYellow)));
-        models.add(new TaskModel("Project UI Design", "Creative", 15 * 60 * 1000,
-                ContextCompat.getColor(context, R.color.taskGreen)));
-        models.add(new TaskModel("Relax", "Break", 30 * 60 * 1000,
-                ContextCompat.getColor(context, R.color.taskBlue)));
-        models.add(new TaskModel("Foo", "Bar", 15 * 60 * 1000,
-                ContextCompat.getColor(context, R.color.taskIndigo)));
-
-        return models;
-    }
-
-    private void getDataModels(){
-        StringBuilder jsonContent = new StringBuilder();
-        File file = new File(getApplicationContext().getFilesDir(), FILE_NAME);
-
-        if(!file.exists()) {
-            taskHolder.addView(new TaskView(getApplicationContext(), null,
-                    new TaskModel("No Tasks Assigned Yet!", "", 0, R.color.colorPrimary), TaskViewerActivity.this));
-            return;
-        }
-
-        // Retrieve content from file
-        FileInputStream fis = null;
-        try {
-            fis = openFileInput(FILE_NAME);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            String line;
-            while ((line = br.readLine()) != null) {
-                jsonContent.append(line);
-            }
-            fis.close();
-        } catch (FileNotFoundException e) {
-            Log.d("FILE", "Failed to create file");
-            e.printStackTrace();
-        } catch (IOException e) {
-            Log.d("FILE", "Failed to write file");
-            e.printStackTrace();
-        }
-
-        // Convert back to object
-        SavePackage save;
-        Gson gson = new Gson();
-        save = gson.fromJson(jsonContent.toString(), SavePackage.class);
-
-        for (TaskModel tm : save.getTaskModels()) {
-            taskHolder.addView(new TaskView(getApplicationContext(), null, tm, TaskViewerActivity.this));
-        }
-    }
-*/
     /* -- LOGIC -- */
     private SavePackage retrieveSave() {
         StringBuilder jsonContent = new StringBuilder();
@@ -211,7 +143,6 @@ public class TaskViewerActivity extends AppCompatActivity {
 
         try {
             if(checkEmpty(currentModels)){
-                //File toDelete = new File(fileName);
                 if(file.exists())
                     file.delete();
                 Toast.makeText(getApplicationContext(), "You do not have any tasks to add!", Toast.LENGTH_LONG).show();
@@ -248,6 +179,9 @@ public class TaskViewerActivity extends AppCompatActivity {
     }
 
     private boolean checkEmpty(ArrayList<TaskModel> temp){
+        if(temp == null)
+            return true;
+
         for(TaskModel t: temp){
             if(t.getAlive()){
                 return false;

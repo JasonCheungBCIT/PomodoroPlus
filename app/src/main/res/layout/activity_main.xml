@@ -17,6 +17,7 @@
         android:fontFamily="monospace"
         android:textStyle="bold"
         android:textSize="40dp"
+        android:layout_marginTop="60dp"
         android:id="@+id/textView2"
         android:layout_toRightOf="@+id/ivPomo"
         android:layout_toEndOf="@+id/ivPomo"/>
@@ -39,7 +40,7 @@
         android:layout_height="70dp"
         android:id="@+id/ivPomo"
         android:src="@drawable/pomo"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="75dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -47,31 +48,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true">
-        <!--
-        <TableRow>
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:id="@+id/ivPomo"
-                android:src="@drawable/pomo" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pomodoro+"
-                android:fontFamily="monospace"
-                android:textStyle="bold"
-                android:textSize="30dp"
-                android:id="@+id/textView"/>
-        </TableRow>-->
 
         <TableRow
             android:gravity="center_horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="60dp">
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:id="@+id/ivCreate"
-                android:onClick="onCreateClick"
+                android:onClick="onCreateTaskClick"
                 android:src="@drawable/task_create2" />
             <TextView
                 android:width="50dp"/>
@@ -100,65 +85,7 @@
                 android:onClick="onViewTaskClick"
                 android:id="@+id/tvView" />
         </TableRow>
-        <TableRow android:gravity="center_horizontal"
-            android:layout_marginTop="20dp">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:id="@+id/ivCalender"
-                android:onClick="onCreateTaskClick"
-                android:src="@drawable/calendar2" />
-            <TextView />
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:id="@+id/ivSettings"
-                android:onClick="onSettingClick"
-                android:src="@drawable/settings" />
-        </TableRow>
-
-        <TableRow android:gravity="center_horizontal">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Select date"
-                android:layout_gravity="center_horizontal"
-                android:onClick="onCreateTaskClick"
-                android:id="@+id/tvCalender" />
-            <TextView />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Settings"
-                android:onClick="onSettingClick"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/tvSettings" />
-        </TableRow>
 
     </TableLayout>
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sorry Manjot"
-        android:id="@+id/button2"
-        android:onClick="onMainFlowClick"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone"/>
-
-
-    <!--
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Jason Testing Area"
-            android:id="@+id/button6"
-            android:onClick="onJasonClick"
-            android:layout_below="@+id/btSettings"
-            android:layout_centerHorizontal="true" />-->
-
 
 </RelativeLayout>
