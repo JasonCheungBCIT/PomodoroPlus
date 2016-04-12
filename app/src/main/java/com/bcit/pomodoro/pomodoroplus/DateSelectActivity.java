@@ -32,8 +32,6 @@ public class DateSelectActivity extends AppCompatActivity {
         tomorrowButton = (FloatingActionButton) findViewById(R.id.tomorrow_button);
 
         isCreateActivity = getIntent().getBooleanExtra("isCreateActivity", true);
-        //DEBUG
-        Toast.makeText(getApplicationContext(), String.valueOf(isCreateActivity), Toast.LENGTH_LONG).show();
     }
 
     private void printSelectedDate() {
@@ -48,7 +46,7 @@ public class DateSelectActivity extends AppCompatActivity {
         year    = cal.getYear();
         month   = cal.getMonth();
         day     = cal.getDayOfMonth();
-        printSelectedDate();
+        //printSelectedDate();
         if(isCreateActivity)
             startCreateTaskActivity();
         else
@@ -61,7 +59,7 @@ public class DateSelectActivity extends AppCompatActivity {
         month   = c.get(Calendar.MONTH);
         day     = c.get(Calendar.DAY_OF_MONTH);
         cal.updateDate(year, month, day);   // Visual update
-        printSelectedDate();
+        //printSelectedDate();
         if(isCreateActivity)
             startCreateTaskActivity();
         else
@@ -75,7 +73,7 @@ public class DateSelectActivity extends AppCompatActivity {
         month   = c.get(Calendar.MONTH);
         day     = c.get(Calendar.DAY_OF_MONTH);
         cal.updateDate(year, month, day);   // Visual update
-        printSelectedDate();
+        //printSelectedDate();
         if(isCreateActivity)
             startCreateTaskActivity();
         else
