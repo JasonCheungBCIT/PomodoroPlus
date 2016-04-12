@@ -6,7 +6,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    
+
     <string-array name="category_arrays">
         <item>None</item>
         <item>Science</item>

@@ -16,13 +16,13 @@ import java.util.Calendar;
 public class DateSelectActivity extends AppCompatActivity {
 
     private DatePicker cal;
+    private boolean     isCreateActivity;
     private FloatingActionButton selectButton, todayButton, tomorrowButton;
     private int year, month, day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_date_select);
 
         cal = (DatePicker) findViewById(R.id.datePicker);
@@ -31,6 +31,9 @@ public class DateSelectActivity extends AppCompatActivity {
         todayButton = (FloatingActionButton) findViewById(R.id.today_button);
         tomorrowButton = (FloatingActionButton) findViewById(R.id.tomorrow_button);
 
+        isCreateActivity = getIntent().getBooleanExtra("isCreateActivity", true);
+        //DEBUG
+        Toast.makeText(getApplicationContext(), String.valueOf(isCreateActivity), Toast.LENGTH_LONG).show();
     }
 
     private void printSelectedDate() {
@@ -46,7 +49,10 @@ public class DateSelectActivity extends AppCompatActivity {
         month   = cal.getMonth();
         day     = cal.getDayOfMonth();
         printSelectedDate();
-        startCreateTaskActivity();
+        if(isCreateActivity)
+            startCreateTaskActivity();
+        else
+            startViewActivity();
     }
 
     public void onTodayClick(View view) {
@@ -56,7 +62,10 @@ public class DateSelectActivity extends AppCompatActivity {
         day     = c.get(Calendar.DAY_OF_MONTH);
         cal.updateDate(year, month, day);   // Visual update
         printSelectedDate();
-        startCreateTaskActivity();
+        if(isCreateActivity)
+            startCreateTaskActivity();
+        else
+            startViewActivity();
     }
 
     public void onTomorrowClick(View view) {
@@ -67,7 +76,10 @@ public class DateSelectActivity extends AppCompatActivity {
         day     = c.get(Calendar.DAY_OF_MONTH);
         cal.updateDate(year, month, day);   // Visual update
         printSelectedDate();
-        startCreateTaskActivity();
+        if(isCreateActivity)
+            startCreateTaskActivity();
+        else
+            startViewActivity();
     }
 
     private void startCreateTaskActivity() {
@@ -76,5 +88,18 @@ public class DateSelectActivity extends AppCompatActivity {
         intent.putExtra("month", month);
         intent.putExtra("day", day);
         startActivity(intent);
+    }
+
+    private void startViewActivity() {
+        Intent intent = new Intent(this, CustomTaskViewer.class);
+        intent.putExtra("year", year);
+        intent.putExtra("month", month);
+        intent.putExtra("day", day);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
 }

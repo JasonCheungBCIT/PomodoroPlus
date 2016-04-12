@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -188,5 +189,11 @@ public class TaskViewerActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    public void onCalenderClick(View v) {
+        Intent intent = new Intent(getApplicationContext(), DateSelectActivity.class);
+        intent.putExtra("isCreateActivity", false);
+        startActivity(intent);
     }
 }

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.bcit.pomodoro.pomodoroplus.TaskViewerActivity"
+    tools:context="com.bcit.pomodoro.pomodoroplus.CustomTaskViewer"
     android:background="#eeeeee">
 
     <ScrollView
@@ -23,7 +22,7 @@
         android:layout_alignParentStart="true">
 
         <LinearLayout
-            android:id="@+id/task_holder"
+            android:id="@+id/custom_task_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -33,16 +32,6 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ivCalender"
-        android:src="@drawable/calendar3"
-        android:onClick="onCalenderClick"
-        android:layout_alignBottom="@+id/scrollView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
