@@ -112,6 +112,9 @@ public class ModifyTasks {
 
     public void setNotifications(ArrayList<TaskModel> temp, Context context){
         // int counter = 0;
+        if (temp.isEmpty()) {
+            return;
+        }
         TaskModel t = temp.get(0);
 
         //Add counter and t.getTimeLeft()(in some fucked up value);

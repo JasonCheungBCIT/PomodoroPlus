@@ -2,6 +2,7 @@ package com.bcit.pomodoro.pomodoroplus;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -30,12 +31,15 @@ public class TaskViewerActivity extends AppCompatActivity {
     private ModifyTasks modify;
     private SavePackage toSave;
     private ArrayList<TaskModel> currentModels;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_viewer);
         setTitle("Tasks For Today");
+
+        preferences = getPreferences(MODE_PRIVATE);
 
         taskHolder = (LinearLayout) findViewById(R.id.task_holder);
         // getDataModels();
@@ -80,6 +84,7 @@ public class TaskViewerActivity extends AppCompatActivity {
 
             if (getIntent().getBooleanExtra("next-task-flag", false)) {
                 toSave.incrementCompletedTasks();
+                preferences.edit().putBoolean("notify", false).commit();
             }
 
             return toSave; // .getTaskModels();
@@ -117,8 +122,11 @@ public class TaskViewerActivity extends AppCompatActivity {
 
         currentModels = temp;
 
-        modify.setNotifications(temp, getApplicationContext());
-        temp = modify.returnTasks();
+        if(!preferences.getBoolean("notify", false) && temp.size() != 0){
+            modify.setNotifications(temp, getApplicationContext());
+            temp = modify.returnTasks();
+            preferences.edit().putBoolean("notify", true).apply();
+        }
 
         for (TaskModel tm : temp) {
             taskHolder.addView(new TaskView(getApplicationContext(), null, tm, TaskViewerActivity.this));
