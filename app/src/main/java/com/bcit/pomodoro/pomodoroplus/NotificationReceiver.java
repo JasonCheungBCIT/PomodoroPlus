@@ -30,9 +30,11 @@ public class NotificationReceiver extends BroadcastReceiver {
         builder.setContentTitle(message + " time is up");
         builder.setContentText("Move on to the next task!");
 
+
         builder.setContentIntent(pending);
 
         Notification test = builder.build();
+        test.flags |= Notification.FLAG_AUTO_CANCEL;
         NotificationManagerCompat.from(context).notify(0, test);
 
     }

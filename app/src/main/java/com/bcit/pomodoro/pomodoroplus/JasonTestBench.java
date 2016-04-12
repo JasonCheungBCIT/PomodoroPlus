@@ -134,22 +134,3 @@ public class JasonTestBench extends Activity {
     }
 }
 
-/**
- * Wraps our models to allow serialization.
- */
-class SavePackage {
-
-    private ArrayList<TaskModel> taskModels;
-
-    SavePackage(ArrayList<TaskModel> models) {
-        taskModels = models;
-    }
-
-    public ArrayList<TaskModel> getTaskModels() {
-        return taskModels;
-    }
-
-    public void setTaskModels(TaskModel t){
-        taskModels.add(t);
-    }
-}

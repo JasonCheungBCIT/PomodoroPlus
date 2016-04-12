@@ -111,31 +111,31 @@ public class ModifyTasks {
 
 
     public void setNotifications(ArrayList<TaskModel> temp, Context context){
-        int counter = 0;
-        for(TaskModel t: temp){
-            //Add counter and t.getTimeLeft()(in some fucked up value);
-            int toAdd = (int)t.getTimeLeft() /1000/60;
-            AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            Intent intent= new Intent(context, NotificationReceiver.class);
-            intent.putExtra("content", t.getTitle());
-            PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            Calendar c = Calendar.getInstance();
-            c.add(Calendar.MINUTE, (toAdd + counter));
-            long time = c.getTimeInMillis();
-            manager.set(AlarmManager.RTC_WAKEUP, time, alarmIntent);
-            //set task for deletion
-            final TaskModel toDelete = t;
-            Handler timerHandler = new Handler();
-            Runnable timerRunnable = new Runnable(){
-                @Override
-                public void run(){
-                    deleteTask(tasks, toDelete);
-                }
-            };
-            timerHandler.postDelayed(timerRunnable, time - 100);
+        // int counter = 0;
+        TaskModel t = temp.get(0);
 
-            counter += toAdd;
-        }
+        //Add counter and t.getTimeLeft()(in some fucked up value);
+        int toAdd = (int)t.getTimeLeft() / 1000 / 60;
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent= new Intent(context, NotificationReceiver.class);
+        intent.putExtra("content", t.getTitle());
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MINUTE, (toAdd));
+        long time = c.getTimeInMillis();
+        manager.set(AlarmManager.RTC_WAKEUP, time, alarmIntent);
+        //set task for deletion
+        final TaskModel toDelete = t;
+        Handler timerHandler = new Handler();
+        Runnable timerRunnable = new Runnable(){
+            @Override
+            public void run(){
+                deleteTask(tasks, toDelete);
+            }
+        };
+        timerHandler.postDelayed(timerRunnable, time - 100);
+
+        // counter += toAdd;
     }
 
     public void deleteTask(ArrayList<TaskModel> temp, TaskModel toDelete){

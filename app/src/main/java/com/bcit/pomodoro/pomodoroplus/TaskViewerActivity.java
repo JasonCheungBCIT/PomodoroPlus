@@ -1,5 +1,6 @@
 package com.bcit.pomodoro.pomodoroplus;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +11,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -24,6 +27,8 @@ public class TaskViewerActivity extends AppCompatActivity {
     private final String FILE_NAME = "stored_tasks";
     private LinearLayout taskHolder;
     private ModifyTasks modify;
+    private SavePackage toSave;
+    private ArrayList<TaskModel> currentModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,8 @@ public class TaskViewerActivity extends AppCompatActivity {
 
         taskHolder = (LinearLayout) findViewById(R.id.task_holder);
         // getDataModels();
-        loadTasks(retrieveTasks());
+        SavePackage save = retrieveSave();
+        loadTasks(save.getTaskModels(), save.getCompletedTasks());
 
         Intent intent = getIntent();
         Log.d("DEBUG", String.valueOf(intent.getBooleanExtra("next-task-flag", false)));
@@ -111,7 +117,7 @@ public class TaskViewerActivity extends AppCompatActivity {
     }
 */
     /* -- LOGIC -- */
-    private ArrayList<TaskModel> retrieveTasks() {
+    private SavePackage retrieveSave() {
         StringBuilder jsonContent = new StringBuilder();
 
         // Retrieve content from file
@@ -133,13 +139,17 @@ public class TaskViewerActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
         // Convert back to object
         try{
-            SavePackage save;
             Gson gson = new Gson();
-            save = gson.fromJson(jsonContent.toString(), SavePackage.class);
+            toSave = gson.fromJson(jsonContent.toString(), SavePackage.class);
 
-            return save.getTaskModels();
+            if (getIntent().getBooleanExtra("next-task-flag", false)) {
+                toSave.incrementCompletedTasks();
+            }
+
+            return toSave; // .getTaskModels();
 
         }catch(NullPointerException e){
             Toast.makeText(getApplicationContext(), "You do not have any tasks!", Toast.LENGTH_LONG);
@@ -147,7 +157,7 @@ public class TaskViewerActivity extends AppCompatActivity {
         }
     }
 
-    private void loadTasks(ArrayList<TaskModel> taskModels) {
+    private void loadTasks(ArrayList<TaskModel> taskModels, int completed) {
         if(taskModels == null){
             return;
         }
@@ -164,6 +174,16 @@ public class TaskViewerActivity extends AppCompatActivity {
         temp = modify.returnTasks();
         modify.insertBreaks(temp);
         temp = modify.returnTasks();
+
+        int i = 0;
+        while (i < completed) {
+            Log.d("DEBUG", "Size of temp:" + temp.size() + " i: " + i);
+            temp.remove(0);
+            i++;
+        }
+
+        currentModels = temp;
+
         modify.setNotifications(temp, getApplicationContext());
         temp = modify.returnTasks();
 
@@ -178,6 +198,61 @@ public class TaskViewerActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        FileInputStream     fis = null;
+        FileOutputStream fos = null;
+        StringBuilder       jsonContent;
+        File                file;
 
+        jsonContent = new StringBuilder();
+        file        = new File(getApplicationContext().getFilesDir(), DateHelper.getTodayString());
 
+        try {
+            if(checkEmpty(currentModels)){
+                //File toDelete = new File(fileName);
+                if(file.exists())
+                    file.delete();
+                Toast.makeText(getApplicationContext(), "You do not have any tasks to add!", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            Log.d("Size ", String.valueOf(currentModels.size()));
+
+            //CREATING THE FILE IF IT DOESN'T EXIST USING FILEOUTPUT BECAUSE file.createFile() FAILS :'(;
+            Log.d("TaskViewerActivity", "File does not exist, creating");
+
+            // Create save package
+            SavePackage save = new SavePackage(toSave.getTaskModels(), toSave.getCompletedTasks());
+
+            // Serialize new save package
+            Gson gson = new Gson();
+            String content = gson.toJson(save);
+
+            // Create file
+            fos = openFileOutput(DateHelper.getTodayString(), Context.MODE_PRIVATE);
+            fos.write(content.getBytes());
+            fos.close();
+
+        } catch (FileNotFoundException e) {
+            Log.d("FILE", "Failed to create file");
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.d("FILE", "Failed to write file");
+            e.printStackTrace();
+        } catch (IllegalStateException e){
+            Log.d("Update", "Failed to update task arraylist");
+            e.printStackTrace();
+        }
+    }
+
+    private boolean checkEmpty(ArrayList<TaskModel> temp){
+        for(TaskModel t: temp){
+            if(t.getAlive()){
+                return false;
+            }
+        }
+        return true;
+    }
 }
